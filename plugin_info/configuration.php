@@ -46,12 +46,13 @@ if (!isConnect()) {
                     <option value="0" selected >Non</option>
                 </select>
             </div>
-			<div class="col-lg-6">Créer les commandes coolsetpoint et heatsetpoint 
-			</br> Températures de consignes différentes en mode froid et mode chaud
-			</br> Aucune Idée ? Faire une synchro et vérifier la présence d'une commande info "coolsetpoint" et "heatsetpoint, 
-			</br> si oui, passer VAF à oui, supprimer toutes les zones et relancer une synchro.
+			<div class="col-lg-6">
+			Températures de consignes différentes en mode froid et mode chaud
+			</br> Aucune Idée ? Faire une synchro et vérifier la présence d'une commande info "coolsetpoint" et "heatsetpoint", 
+			</br> si oui, passer VAF à oui, enregistrer puis désactiver et réactiver le plugin.
 			</div>
         </div>
+
   </fieldset>
 </form>
 
