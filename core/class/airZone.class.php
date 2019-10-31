@@ -88,13 +88,13 @@ class airZone extends eqLogic {
 	}
 	
 	public function SyncSystem($idSystem) {
-	/*	
 		//Config de Prod
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
 		$zoneID = 0;
 		$data = array("systemID" => "$systemID", "zoneID" => "$zoneID");
 		$data_string = json_encode($data);
+		log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -112,9 +112,8 @@ class airZone extends eqLogic {
 
 		//close connection
 		curl_close($ch);	
-	*/	
 	
-
+/*
 	//Config de Test
     //$Addr = 'http://' . $this->getConfiguration('addr', '') . ':3000/api/v1/hvac';
 	$url = config::byKey('addr', 'airZone');
@@ -127,12 +126,13 @@ class airZone extends eqLogic {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$data = curl_exec($ch);
 	curl_close($ch);
-	
+*/	
+	log::add('airZone', 'debug', "Retour API : ".$datas);
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
     $datas = json_decode($data, true);
     if (json_last_error() == JSON_ERROR_NONE) {
-		log::add('airZone', 'debug', print_r($ListRegistres, true));
+		log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
 		
 		//On récupère tout les registres
 		foreach ($datas["data"] as $registre) {
@@ -330,12 +330,7 @@ class airZone extends eqLogic {
 						case "errors" :
 							//Gestion des erreurs et warning à terminer
 							$eqLogic->checkAndUpdateCmd($name, json_encode($value));
-							log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
-							break;
-						case "set_Temp" :
-							//Gestion des erreurs et warning à terminer
-							$eqLogic->checkAndUpdateCmd($name, json_encode($value));
-							log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
+							//log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
 							break;
 						default:
 						$eqLogic->checkAndUpdateCmd($name, $value);
@@ -369,13 +364,20 @@ class airZone extends eqLogic {
 					
 				foreach($registre as $name => $value) {
 					$eqLogic->checkCmdOk($eqLogic->getId(), $name);
-					if($name=="errors"){
+					switch($name)
+					{
+					case "errors" :
 						//Gestion des erreurs et warning à terminer
 						$eqLogic->checkAndUpdateCmd($name, json_encode($value));
-						log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
-					}
-					else{
+						//log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
+						break;
+					case "on" :
+						log::add('airZone', 'debug', "Commande ON : ".json_encode($value));
+						if (json_encode($value)){$eqLogic->checkAndUpdateCmd($name, 1);}else{$eqLogic->checkAndUpdateCmd($name, 0);}
+						break;
+					default:
 						$eqLogic->checkAndUpdateCmd($name, $value);
+						break;
 					}
 				}
 				log::add('airZone', 'debug', "Mise à jour  de l'EqLogic : ". print_r($eqLogic->getId(), true));	
@@ -520,66 +522,82 @@ class airZoneCmd extends cmd {
 		
 	
 		$eqLogic = airZone::byId($this->getEqLogic_id());
-		/*log::add('airZone', 'debug', "SystemID : ".$eqLogic->getConfiguration('systemID'));
-		log::add('airZone', 'debug', "zoneID : ".$eqLogic->getConfiguration('zoneID'));
-		log::add('airZone', 'debug', "Commande  : ".$this->getName());
-		*/
+		log::add('airZone', 'debug', "SystemID : ".$eqLogic->getConfiguration('systemID')." - zoneID : ".$eqLogic->getConfiguration('zoneID'));
+		
 		$parameters = $this->getConfiguration('parameters');
 		
 		//par defaut on traite toutes les commandes comme des #slider#
 		$value = str_replace('#slider#', $_options['slider'], $parameters);
+		log::add('airZone', 'debug', "Commande avant Api : ".$this->getName()." -> ".$value);
 		
 		switch ($this->getName()) {
 		case "set_On":
 			$params = "on";
-			if($_options['slider']=="1")
-			{$value = true;}else{$value = false;}
+			$eqLogic->checkAndUpdateCmd($params, $value);
+			if($_options['slider']=="1"){
+				$value = true;
+				log::add('airZone', 'debug', "Commande ON Envoyée à l'API : ".$params." -> true");
+			}else{
+				$value = false;
+				log::add('airZone', 'debug', "Commande OFF Envoyée à l'API : ".$params." -> false");
+			}
 			break;
 		case "set_Temp":
 			$params = "setpoint";
-			
+			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_Name":
 			$params = "name";
 			$value = str_replace('#message#', $_options['message'], $parameters);
+			$eqLogic->checkAndUpdateCmd($params, $value);
+			log::add('airZone', 'debug', "Commande Name avant Api : ".$this->getName()." -> ".$value);
 			break;
 		case "set_coolTemp":
 			$params = "coolsetpoint";
+			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_headTemp":
 			$params = "heatsetpoint";
+			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_mode":
-			$value = str_replace('#select#', $_options['select'], $parameters);
 			$params = "mode";
+			$value = str_replace('#select#', $_options['select'], $parameters);
+			$eqLogic->checkAndUpdateCmd($params, $value);
+			log::add('airZone', 'debug', "Commande Mode avant Api : ".$this->getName()." -> ".$value);
 			break;
 		case "set_speed":
 			$params = "speed";
+			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_coldstage":
 			$params = "coldstage";
+			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_heatstage":
 			$params = "heatstage";
+			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		}
-	
+		
+		/*
 				foreach ($eqLogic->getCmd() as $command) {
 					if ($command->getType() == 'info') {
 						if ($command->getName() == $params) {
-							$command->setCollectDate('');
-							$command->event($value);
+							//$command->setCollectDate('');
+							//$command->event($value);
+							//$command->save();
+							$eqLogic->checkAndUpdateCmd($params, $value);
 							log::add('airZone', 'debug', "Commande  : ".$command->getName()." -> ".$command->getValue());
 						}
 					}
 				}
+	    */
+	  //Affiche la commande sauf ON qui est déjà traité
+	  log::add('airZone', 'debug', "Commande Envoyée à l'API : ".$params." -> ".$value);
+	 
 	  
-	  
-	  log::add('airZone', 'debug', "Commande  : ".$this->getName()." -> ".$value);
-	  //log::add('airZone', 'debug', "Commande  : ".$value);
-	  //log::add('airZone', 'debug', "Commande  : ".print_r($_options));
-	  
-	  /* Config de prod
+	  // Config de prod
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $eqLogic->getConfiguration('systemID');
 		$zoneID = $eqLogic->getConfiguration('zoneID');
@@ -599,10 +617,10 @@ class airZoneCmd extends cmd {
 
 		//execute post
 		$result = curl_exec($ch);
-
+		
+		log::add('airZone', 'debug', "Retour Api : ".json_decode($result));
 		//close connection
 		curl_close($ch);
-	  */
 	  
 	  
 	 return; 

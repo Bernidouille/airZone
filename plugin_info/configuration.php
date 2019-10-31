@@ -52,7 +52,6 @@ if (!isConnect()) {
 			</br> si oui, passer VAF à oui, enregistrer puis désactiver et réactiver le plugin.
 			</div>
         </div>
-
   </fieldset>
 </form>
 
