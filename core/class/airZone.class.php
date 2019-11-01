@@ -92,9 +92,9 @@ class airZone extends eqLogic {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
 		$zoneID = 0;
-		$data = array("systemID" => "$systemID", "zoneID" => "$zoneID");
-		$data_string = json_encode($data);
-		log::add('airZone', 'debug', 'SyncAirzone ' . $url);
+		$request = array("systemID" => "$systemID", "zoneID" => "$zoneID");
+		$data_string = json_encode($request);
+		log::add('airZone', 'debug', 'SyncAirzone ' . $url." Request : ".$request);
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -127,7 +127,7 @@ class airZone extends eqLogic {
 	$data = curl_exec($ch);
 	curl_close($ch);
 */	
-	log::add('airZone', 'debug', "Retour API : ".$datas);
+	log::add('airZone', 'debug', "Retour API : ".$data);
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
     $datas = json_decode($data, true);
@@ -387,9 +387,8 @@ class airZone extends eqLogic {
 		
     }
     else{
-		log::add('airZone', 'info', json_last_error());  	
-		log::add('airZone', 'info', 'URL de connexion ' . $url);  
-		log::add('airZone', 'info', print_r($data, true));
+		log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
+		log::add('airZone', 'info', $datas, true));
 		}
 
 	}
@@ -549,7 +548,8 @@ class airZoneCmd extends cmd {
 		case "set_Name":
 			$params = "name";
 			$value = str_replace('#message#', $_options['message'], $parameters);
-			$eqLogic->checkAndUpdateCmd($params, $value);
+				//hack pour forcer select option en integer
+			$eqLogic->checkAndUpdateCmd($params, "+".$value);
 			log::add('airZone', 'debug', "Commande Name avant Api : ".$this->getName()." -> ".$value);
 			break;
 		case "set_coolTemp":
