@@ -548,7 +548,8 @@ class airZoneCmd extends cmd {
 		case "set_Name":
 			$params = "name";
 			$value = str_replace('#message#', $_options['message'], $parameters);
-			$eqLogic->checkAndUpdateCmd($params, $value);
+				//hack pour forcer select option en integer
+			$eqLogic->checkAndUpdateCmd($params, "+".$value);
 			log::add('airZone', 'debug', "Commande Name avant Api : ".$this->getName()." -> ".$value);
 			break;
 		case "set_coolTemp":
