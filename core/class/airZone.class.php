@@ -388,7 +388,7 @@ class airZone extends eqLogic {
     }
     else{
 		log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
-		log::add('airZone', 'info', $datas, true));
+		log::add('airZone', 'debug', "Datas : ".$datas);
 		}
 
 	}
