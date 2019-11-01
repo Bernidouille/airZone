@@ -87,7 +87,40 @@ class airZone extends eqLogic {
 		}
 	}
 	
+	public function Integration() {
+		$url = "http://192.168.0.235:3000/api/v1/integration";
+		$request = array("driver" => "Jeedom");
+		$data_string = json_encode($request);
+		
+		$options = array(
+		    CURLOPT_URL            => $url,
+		    CURLOPT_CUSTOMREQUEST => "PUT",
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_FOLLOWLOCATION => true,
+		    CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+		    CURLOPT_AUTOREFERER    => true,
+		    CURLOPT_CONNECTTIMEOUT => 120,
+		    CURLOPT_TIMEOUT        => 120,
+		    CURLOPT_MAXREDIRS      => 10,
+		);
+		curl_setopt_array( $ch, $options );
+		$response = curl_exec($ch); 
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		if ( $httpCode != 200 ){
+		    log::add('airZone', 'debug', 'SyncAirzone - Return code is {'.$httpCode.'} '.curl_error($ch));
+		} else {
+		    log::add('airZone', 'debug', 'SyncAirzone - Return data : {'.htmlspecialchars($response));
+		}
+
+		curl_close($ch);
+		
+		
+	}
+	
 	public function SyncSystem($idSystem) {
+		
+		airZone::Integration();
 		//Config de Prod
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
