@@ -126,7 +126,7 @@ class airZone extends eqLogic {
 	$data = curl_exec($ch);
 	curl_close($ch);
 */	log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
-	log::add('airZone', 'debug', "Retour CH : ".print_r(ch));
+	log::add('airZone', 'debug', "Retour CH : ".json_encode($ch));
 	log::add('airZone', 'debug', "Retour API : ".print_r($data)." json : ".$httpcode);
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
