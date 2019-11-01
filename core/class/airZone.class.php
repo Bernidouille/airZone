@@ -94,7 +94,7 @@ class airZone extends eqLogic {
 		$zoneID = 0;
 		$request = array("systemID" => "$systemID", "zoneID" => "$zoneID");
 		$data_string = json_encode($request);
-		log::add('airZone', 'debug', 'SyncAirzone ' . $url." Request : ".$request);
+		log::add('airZone', 'debug', 'SyncAirzone ' . $url." Request : ".print_r($request));
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -127,7 +127,7 @@ class airZone extends eqLogic {
 	$data = curl_exec($ch);
 	curl_close($ch);
 */	
-	log::add('airZone', 'debug', "Retour API : ".$data);
+	log::add('airZone', 'debug', "Retour API : ".print_r($data));
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
     $datas = json_decode($data, true);
