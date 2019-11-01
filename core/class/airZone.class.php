@@ -108,9 +108,9 @@ class airZone extends eqLogic {
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		if ( $httpCode != 200 ){
-		    log::add('airZone', 'debug', 'SyncAirzone - Return code is {'.$httpCode.'} '.curl_error($ch));
+		    log::add('airZone', 'debug', 'Integration - Return code is {'.$httpCode.'} '.curl_error($ch));
 		} else {
-		    log::add('airZone', 'debug', 'SyncAirzone - Return data : {'.htmlspecialchars($response));
+		    log::add('airZone', 'debug', 'Integration - Return data : {'.htmlspecialchars($response));
 		}
 
 		curl_close($ch);
