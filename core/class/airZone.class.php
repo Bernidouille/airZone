@@ -94,21 +94,30 @@ class airZone extends eqLogic {
 		$zoneID = 0;
 		$request = array("systemID" => $systemID, "zoneID" => $zoneID);
 		$data_string = json_encode($request);
-		log::add('airZone', 'debug', 'SyncAirzone ' . $url." Request : chaine ".$data_string);
-		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-		$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		
-		//execute post
-		$data = curl_exec($ch);
+		log::add('airZone', 'debug', 'SyncAirzone ' .$url." Request : chaine ".$data_string);
+		$ch = curl_init();
 
-		//close connection
+		$options = array(
+		    CURLOPT_URL            => $url,
+		    CURLOPT_CUSTOMREQUEST => "POST",
+		    CURLOPT_RETURNTRANSFER => true,
+		    CURLOPT_FOLLOWLOCATION => true,
+		    CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+		    CURLOPT_AUTOREFERER    => true,
+		    CURLOPT_CONNECTTIMEOUT => 120,
+		    CURLOPT_TIMEOUT        => 120,
+		    CURLOPT_MAXREDIRS      => 10,
+		);
+		curl_setopt_array( $ch, $options );
+		$response = curl_exec($ch); 
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		if ( $httpCode != 200 ){
+		    log::add('airZone', 'debug', 'SyncAirzone - Return code is {'.$httpCode.'} '.curl_error($ch));
+		} else {
+		    log::add('airZone', 'debug', 'SyncAirzone - Return data : {'.htmlspecialchars($response));
+		}
+
 		curl_close($ch);
 		
 		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
