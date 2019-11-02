@@ -19,7 +19,7 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 
 function airZone_install() {
-    $cron = cron::byClassAndFunction('airZone', 'SyncAirzone');
+    /*$cron = cron::byClassAndFunction('airZone', 'SyncAirzone');
 	if (!is_object($cron)) {
 		$cron = new cron();
 		$cron->setClass('airZone');
@@ -30,18 +30,18 @@ function airZone_install() {
 		$cron->setSchedule('*/5 * * * *'); // Toutes les 5 minutes
 		$cron->save();
 	}
-
+*/
 	airZone::SyncAirzone();
 }
 
 function airZone_update() {
-    $cron = cron::byClassAndFunction('airZone', 'SyncAirzone');
+   /* $cron = cron::byClassAndFunction('airZone', 'SyncAirzone');
 	if (is_object($cron)) {
 		$cron->setDeamon(0);
 		$cron->setSchedule('*/5 * * * *'); // Toutes les 5 minutes
 		$cron->save();
 	}
-	log::add('airZone', 'info', "update");
+	log::add('airZone', 'info', "update");*/
 	airZone::SyncAirzone();
 }
 
