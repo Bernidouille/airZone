@@ -88,7 +88,7 @@ class airZone extends eqLogic {
 	}
 	
 	public function Integration() {
-		$url =  = config::byKey('integration', 'airZone');
+		$url = config::byKey('integration', 'airZone');
 		$request = array("driver" => "Jeedom");
 		$data_string = json_encode($request);
 		
@@ -125,7 +125,7 @@ class airZone extends eqLogic {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
 		$zoneID = 0;
-		$request = array("systemID" => $systemID, "zoneID" => $zoneID);
+		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
 		log::add('airZone', 'debug', 'SyncAirzone ' .$url." Request : chaine ".$data_string);
 		$ch = curl_init();
