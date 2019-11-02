@@ -31,6 +31,13 @@ if (!isConnect()) {
             </div>
 			<span class="col-lg-6" style="position:relative;top:7px;">http://XXX.XXX.XXX.XXX:3000/api/v1/hvac</span>
         </div>
+	<div class="form-group">
+            <label class="col-lg-3 control-label">{{Adresse API pour la vérification de l'intégration }}</label>
+            <div class="col-lg-3">
+                <input class="configKey form-control" data-l1key="integration" />
+            </div>
+			<span class="col-lg-6" style="position:relative;top:7px;">http://XXX.XXX.XXX.XXX:3000/api/v1/integration</span>
+        </div>
         <div class="form-group">
             <label class="col-lg-3 control-label">{{Nombre de Systèmes de climatisation AirZone	}}</label>
             <div class="col-lg-3">
