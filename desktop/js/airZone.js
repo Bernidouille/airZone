@@ -220,6 +220,7 @@ function SyncAirzone() {
         window.location.reload();
     }
 });
+}
 function Integration() {
     $.ajax({// fonction permettant de faire de l'ajax
         type: "POST", // méthode de transmission des données au fichier php
