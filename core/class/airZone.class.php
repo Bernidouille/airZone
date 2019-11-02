@@ -140,6 +140,7 @@ class airZone extends eqLogic {
 		    CURLOPT_CONNECTTIMEOUT => 120,
 		    CURLOPT_TIMEOUT        => 120,
 		    CURLOPT_MAXREDIRS      => 10,
+		    CURLOPT_POSTFIELDS     => $data_string
 		);
 		curl_setopt_array( $ch, $options );
 		$response = curl_exec($ch); 
