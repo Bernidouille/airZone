@@ -193,6 +193,11 @@ $('#bt_syncEqLogic').on('click', function () {
     SyncAirzone();
 });
 
+$('#bt_integration').on('click', function () {
+    Integration();
+});
+
+
 $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 
 

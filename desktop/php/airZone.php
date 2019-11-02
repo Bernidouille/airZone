@@ -12,15 +12,20 @@ $eqLogics = eqLogic::byType($plugin->getId());
   <legend><i class="fas fa-cog"></i>  {{Gestion}}</legend>
   <div class="eqLogicThumbnailContainer">
 	<div class="cursor eqLogicAction logoPrimary" id="bt_syncEqLogic">
-        <i class="fas fa-refresh"></i>
-        <br>
-        <span>{{Synchroniser}}</span>
-    </div>
-      <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
-      <i class="fas fa-wrench"></i>
-    <br>
-    <span>{{Configuration}}</span>
-  </div>
+        	<i class="fas fa-sync-alt"></i>
+        	<br>
+        	<span>{{Synchroniser}}</span>
+    	</div>
+        <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
+      		<i class="fas fa-wrench"></i>
+    		<br>
+    		<span>{{Configuration}}</span>
+  	</div>
+	<div class="cursor eqLogicAction logoSecondary" id="bt_integration">
+        	<i class="fas fa-medkit"></i>
+        	<br>
+        	<span>{{Debug Intégration}}</span>
+    	</div>
   </div>
   <legend><i class="fas fa-table"></i> {{Mes Zones}}</legend>
 	   <input class="form-control" placeholder="{{Rechercher}}" id="in_searchEqlogic" />

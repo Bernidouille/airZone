@@ -88,7 +88,7 @@ class airZone extends eqLogic {
 	}
 	
 	public function Integration() {
-		$url = "http://192.168.0.235:3000/api/v1/integration";
+		$url =  = config::byKey('integration', 'airZone');
 		$request = array("driver" => "Jeedom");
 		$data_string = json_encode($request);
 		
@@ -120,7 +120,7 @@ class airZone extends eqLogic {
 	
 	public function SyncSystem($idSystem) {
 		
-		airZone::Integration();
+		//airZone::Integration();
 		//Config de Prod
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
