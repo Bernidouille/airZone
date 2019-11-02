@@ -94,7 +94,7 @@ class airZone extends eqLogic {
 		
 		$options = array(
 		    CURLOPT_URL            => $url,
-		    CURLOPT_CUSTOMREQUEST => "PUT",
+		    CURLOPT_CUSTOMREQUEST => "GET",
 		    CURLOPT_RETURNTRANSFER => true,
 		    CURLOPT_FOLLOWLOCATION => true,
 		    CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
