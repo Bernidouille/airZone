@@ -167,19 +167,19 @@ class airZone extends eqLogic {
     $data = $request_http->exec(30);
 	
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
-	log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
+	//log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
     $datas = json_decode($data, true);
     if (json_last_error() == JSON_ERROR_NONE) {
-		log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
+		//log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
 		
 		//On récupère tout les registres
 		foreach ($datas["data"] as $registre) {
 			//Pour chaque registre, on test si il existe en base
-			log::add('airZone', 'debug', print_r($registre, true));
+			//log::add('airZone', 'debug', print_r($registre, true));
 			$eqRecherche = $registre["systemid"]."-".$registre["zoneid"];
-			log::add('airZone', 'debug', "Recherche: " .$eqRecherche);
+			//log::add('airZone', 'debug', "Recherche: " .$eqRecherche);
 			
 			$found = false;
 
@@ -427,9 +427,9 @@ class airZone extends eqLogic {
 		
     }
     else{
-	log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
-	log::add('airZone', 'debug', "Datas : ".$datas);
-	log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
+		log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
+		log::add('airZone', 'debug', "Datas : ".$datas);
+		log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
 	}
 
    }
