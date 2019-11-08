@@ -121,9 +121,9 @@ class airZone extends eqLogic {
 	public function SyncSystem($idSystem) {
 		
 		//airZone::Integration();
-	/*	//Config de Prod
+	/*	//Config de Prod (int)
 		$url = config::byKey('addr', 'airZone');
-		$systemID = (int)$idSystem;
+		$systemID = $idSystem;
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
@@ -155,11 +155,11 @@ class airZone extends eqLogic {
 		curl_close($ch);
 		
 		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
-		
+		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 */	
 
 	//Config de Test
-    //$Addr = 'http://' . $this->getConfiguration('addr', '') . ':3000/api/v1/hvac';
+        //$Addr = 'http://' . $this->getConfiguration('addr', '') . ':3000/api/v1/hvac';
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 
@@ -171,13 +171,13 @@ class airZone extends eqLogic {
 	$data = curl_exec($ch);
 	curl_close($ch);
 	
-	log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
+	
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
-    $datas = json_decode($data, true);
-    if (json_last_error() == JSON_ERROR_NONE) {
+        $datas = json_decode($data, true);
+        if (json_last_error() == JSON_ERROR_NONE) {
 		log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
 		
 		//On récupère tout les registres
