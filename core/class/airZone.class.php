@@ -157,11 +157,11 @@ class airZone extends eqLogic {
 		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 */	
-/*
+
 	//Config de Test
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
-
+/*
 	//Récupération eqLogics de airZone
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
