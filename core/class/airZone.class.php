@@ -119,9 +119,9 @@ class airZone extends eqLogic {
 	}
 	
 	public function SyncSystem($idSystem) {
-		
+	/*	
 		//airZone::Integration();
-	/*	//Config de Prod (int)
+		//Config de Prod (int)
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
 		$zoneID = 0;
@@ -157,7 +157,7 @@ class airZone extends eqLogic {
 		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 */	
-
+/*
 	//Config de Test
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
@@ -436,7 +436,7 @@ class airZone extends eqLogic {
 		log::add('airZone', 'debug', "Datas : ".$datas);
 	    	log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
 		}
-
+*/
 	}
   
     public function checkCmdOk($_id_eqlogics, $_name) {
