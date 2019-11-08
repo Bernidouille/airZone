@@ -169,7 +169,8 @@ class airZone extends eqLogic {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$data = curl_exec($ch);
 	curl_close($ch);
-	
+	*/
+	$data = curl -i -X GET -H "Content-Type: application/json" -d $url;	
 	
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
@@ -432,12 +433,12 @@ class airZone extends eqLogic {
 		
     }
     else{
-		log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
-		log::add('airZone', 'debug', "Datas : ".$datas);
-	    	log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
-		}
-*/
+	log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
+	log::add('airZone', 'debug', "Datas : ".$datas);
+	log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
 	}
+
+   }
   
     public function checkCmdOk($_id_eqlogics, $_name) {
     $airZoneCmd = airZoneCmd::byEqLogicIdAndLogicalId($_id_eqlogics,$_name);
