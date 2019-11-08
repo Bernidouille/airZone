@@ -29,6 +29,11 @@ try {
 	airZone::SyncAirzone();
 	ajax::success();
 	}
+	
+	if (init('action') == 'Integration') {
+	airZone::Integration();
+	ajax::success();
+	}
 
     throw new Exception(__('Aucune méthode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */

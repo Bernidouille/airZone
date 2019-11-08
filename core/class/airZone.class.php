@@ -88,13 +88,13 @@ class airZone extends eqLogic {
 	}
 	
 	public function Integration() {
-		$url =  = config::byKey('integration', 'airZone');
+		$url = config::byKey('integration', 'airZone');
 		$request = array("driver" => "Jeedom");
 		$data_string = json_encode($request);
 		
 		$options = array(
 		    CURLOPT_URL            => $url,
-		    CURLOPT_CUSTOMREQUEST => "PUT",
+		    CURLOPT_CUSTOMREQUEST => "GET",
 		    CURLOPT_RETURNTRANSFER => true,
 		    CURLOPT_FOLLOWLOCATION => true,
 		    CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
@@ -140,6 +140,7 @@ class airZone extends eqLogic {
 		    CURLOPT_CONNECTTIMEOUT => 120,
 		    CURLOPT_TIMEOUT        => 120,
 		    CURLOPT_MAXREDIRS      => 10,
+		    CURLOPT_POSTFIELDS     => $data_string
 		);
 		curl_setopt_array( $ch, $options );
 		$response = curl_exec($ch); 
