@@ -35,7 +35,7 @@ class airZone extends eqLogic {
       public static function cron5() {
 			airZone::SyncAirzone();
       }
-	  public static function cron15() {
+      public static function cron15() {
 			airZone::SyncAirzone();
       }
 	
@@ -119,11 +119,11 @@ class airZone extends eqLogic {
 	}
 	
 	public function SyncSystem($idSystem) {
-		
+
 		//airZone::Integration();
-		//Config de Prod
+		//Config de Prod 
 		$url = config::byKey('addr', 'airZone');
-		$systemID = $idSystem;
+		$systemID = (int)$idSystem;
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
@@ -154,41 +154,32 @@ class airZone extends eqLogic {
 
 		curl_close($ch);
 		
-		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
+		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 	
 /*
 	//Config de Test
-    //$Addr = 'http://' . $this->getConfiguration('addr', '') . ':3000/api/v1/hvac';
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 
 	//Récupération eqLogics de airZone
-	$ch = curl_init($url);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$data = curl_exec($ch);
-	curl_close($ch);
-*/
-		
-		
-	log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 	
-
+	$request_http = new com_http($url);
+    $data = $request_http->exec(30);
+	*/
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
-	log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
+	//log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
     $datas = json_decode($data, true);
     if (json_last_error() == JSON_ERROR_NONE) {
-		log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
+		//log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
 		
 		//On récupère tout les registres
 		foreach ($datas["data"] as $registre) {
 			//Pour chaque registre, on test si il existe en base
-			log::add('airZone', 'debug', print_r($registre, true));
+			//log::add('airZone', 'debug', print_r($registre, true));
 			$eqRecherche = $registre["systemID"]."-".$registre["zoneID"];
-			log::add('airZone', 'debug', "Recherche: " .$eqRecherche);
+			//log::add('airZone', 'debug', "Recherche: " .$eqRecherche);
 			
 			$found = false;
 
@@ -355,6 +346,11 @@ class airZone extends eqLogic {
 							break;
 						case "name":
 							$linkedCmdName = 'set_Name';
+							// On récupère le nom de la zone pour le 1er ajout
+							if($value!=""){
+								$eqLogic->setName($value);
+								$eqLogic->save();
+							}							
 							break;
 						case "coolsetpoint":
 							$linkedCmdName = 'set_coolsetpoint';
@@ -395,11 +391,7 @@ class airZone extends eqLogic {
 						}
 					}		
 					
-					// On récupère le nom de la zone pour le 1er ajout
-					if($name == "name"){
-						$eqLogic->setName($value);
-						$eqLogic->save();
-					}
+					
 				}
 
 				log::add('airZone', 'info', "Ajout de l'EqLogic : ". print_r($eqLogic->getId(), true)." et insertion des commandes terminée");
@@ -438,10 +430,10 @@ class airZone extends eqLogic {
     else{
 		log::add('airZone', 'debug', "Error Json : ". json_last_error()); 
 		log::add('airZone', 'debug', "Datas : ".$datas);
-	    	log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
-		}
-
+		log::add('airZone', 'debug', "Datas decode : ".json_encode($datas));
 	}
+
+   }
   
     public function checkCmdOk($_id_eqlogics, $_name) {
     $airZoneCmd = airZoneCmd::byEqLogicIdAndLogicalId($_id_eqlogics,$_name);
@@ -462,9 +454,9 @@ class airZone extends eqLogic {
       $airZoneCmd->setConfiguration('type', 'command');
 	  
 	  switch ($_name) {
-		case "SystemID":
+		case "systemID":
 			break;
-		case "ZoneID":
+		case "zoneID":
 			break;
 		case "name":
 			$airZoneCmd->setSubType('string');
@@ -481,11 +473,16 @@ class airZone extends eqLogic {
 			$airZoneCmd->setIsHistorized(1);
 			$airZoneCmd->setUnite('°C');
 			break;
-		case "maxTemp":
+		case "humidity":
+			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
+			$airZoneCmd->setUnite('%');
+			break;
+		case "maxTemp":
+			$airZoneCmd->setUnite('°C');
 			break;
 		case "minTemp":
-			$airZoneCmd->setIsHistorized(1);
+			$airZoneCmd->setUnite('°C');
 			break;
 		case "coolsetpoint":
 			$airZoneCmd->setUnite('°C');
@@ -651,7 +648,7 @@ class airZoneCmd extends cmd {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $eqLogic->getConfiguration('systemID');
 		$zoneID = $eqLogic->getConfiguration('zoneID');
-		$data = array("systemID" => "$systemID", "zoneID" => "$zoneID", "$params" => "$value");
+		$data = array("systemid" => "$systemID", "zoneid" => "$zoneID", "$params" => "$value");
 		$data_string = json_encode($data);
 
 		$ch = curl_init($url);
