@@ -125,7 +125,7 @@ class airZone extends eqLogic {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $idSystem;
 		$zoneID = 0;
-		$request = array("systemID" => $systemID, "zoneID" => $zoneID);
+		$request = array("systemid" => (int)$systemID, "zoneid" => (int)$zoneID);
 		$data_string = json_encode($request);
 		log::add('airZone', 'debug', 'SyncAirzone ' .$url." Request : chaine ".$data_string);
 		$ch = curl_init();
