@@ -178,7 +178,7 @@ class airZone extends eqLogic {
 		foreach ($datas["data"] as $registre) {
 			//Pour chaque registre, on test si il existe en base
 			//log::add('airZone', 'debug', print_r($registre, true));
-			$eqRecherche = $registre["systemid"]."-".$registre["zoneid"];
+			$eqRecherche = $registre["systemID"]."-".$registre["zoneID"];
 			//log::add('airZone', 'debug', "Recherche: " .$eqRecherche);
 			
 			$found = false;
@@ -201,8 +201,8 @@ class airZone extends eqLogic {
 				$eqLogic->setIsVisible(1);
 				$eqLogic->setName($eqRecherche);
 				$eqLogic->setConfiguration('deviceID', $eqRecherche);
-				$eqLogic->setConfiguration('systemID', $registre["systemid"]);
-				$eqLogic->setConfiguration('zoneID', $registre["zoneid"]);
+				$eqLogic->setConfiguration('systemID', $registre["systemID"]);
+				$eqLogic->setConfiguration('zoneID', $registre["zoneID"]);
 				$eqLogic->save();
 				$eqLogic = self::byId($eqLogic->getId());
 				
@@ -346,6 +346,11 @@ class airZone extends eqLogic {
 							break;
 						case "name":
 							$linkedCmdName = 'set_Name';
+							// On récupère le nom de la zone pour le 1er ajout
+							if($value!=""){
+								$eqLogic->setName($value);
+								$eqLogic->save();
+							}							
 							break;
 						case "coolsetpoint":
 							$linkedCmdName = 'set_coolsetpoint';
@@ -386,11 +391,7 @@ class airZone extends eqLogic {
 						}
 					}		
 					
-					// On récupère le nom de la zone pour le 1er ajout
-					if($name == "name"){
-						$eqLogic->setName($value);
-						$eqLogic->save();
-					}
+					
 				}
 
 				log::add('airZone', 'info', "Ajout de l'EqLogic : ". print_r($eqLogic->getId(), true)." et insertion des commandes terminée");
@@ -453,9 +454,9 @@ class airZone extends eqLogic {
       $airZoneCmd->setConfiguration('type', 'command');
 	  
 	  switch ($_name) {
-		case "SystemID":
+		case "systemID":
 			break;
-		case "ZoneID":
+		case "zoneID":
 			break;
 		case "name":
 			$airZoneCmd->setSubType('string');
@@ -642,7 +643,7 @@ class airZoneCmd extends cmd {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $eqLogic->getConfiguration('systemID');
 		$zoneID = $eqLogic->getConfiguration('zoneID');
-		$data = array("systemID" => "$systemID", "zoneID" => "$zoneID", "$params" => "$value");
+		$data = array("systemid" => "$systemID", "zoneid" => "$zoneID", "$params" => "$value");
 		$data_string = json_encode($data);
 
 		$ch = curl_init($url);
