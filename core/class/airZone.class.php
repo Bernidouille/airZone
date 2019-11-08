@@ -122,7 +122,7 @@ class airZone extends eqLogic {
 		
 		//airZone::Integration();
 		//Config de Prod
-/*		$url = config::byKey('addr', 'airZone');
+		$url = config::byKey('addr', 'airZone');
 		$systemID = (int)$idSystem;
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
@@ -155,7 +155,8 @@ class airZone extends eqLogic {
 		curl_close($ch);
 		
 		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
-*/	
+		
+		/*	
 
 	//Config de Test
     //$Addr = 'http://' . $this->getConfiguration('addr', '') . ':3000/api/v1/hvac';
@@ -169,6 +170,7 @@ class airZone extends eqLogic {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	$data = curl_exec($ch);
 	curl_close($ch);
+	*/
 	log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
