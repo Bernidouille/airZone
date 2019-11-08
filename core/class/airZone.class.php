@@ -119,11 +119,11 @@ class airZone extends eqLogic {
 	}
 	
 	public function SyncSystem($idSystem) {
-	/*	
+
 		//airZone::Integration();
-		//Config de Prod (int)
-		$url = config::byKey('addr', 'airZone');
-		$systemID = $idSystem;
+		//Config de Prod 
+	/*	$url = config::byKey('addr', 'airZone');
+		$systemID = (int)$idSystem;
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
@@ -155,17 +155,17 @@ class airZone extends eqLogic {
 		curl_close($ch);
 		
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
-*/	
-
+	
+	*/
 	//Config de Test
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
-/*
+
 	//Récupération eqLogics de airZone
-	*/
+	
 	$request_http = new com_http($url);
     $data = $request_http->exec(30);
-	
+	//*/
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	//log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
@@ -473,11 +473,16 @@ class airZone extends eqLogic {
 			$airZoneCmd->setIsHistorized(1);
 			$airZoneCmd->setUnite('°C');
 			break;
-		case "maxTemp":
+		case "humidity":
+			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
+			$airZoneCmd->setUnite('%');
+			break;
+		case "maxTemp":
+			$airZoneCmd->setUnite('°C');
 			break;
 		case "minTemp":
-			$airZoneCmd->setIsHistorized(1);
+			$airZoneCmd->setUnite('°C');
 			break;
 		case "coolsetpoint":
 			$airZoneCmd->setUnite('°C');
