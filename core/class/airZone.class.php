@@ -154,7 +154,6 @@ class airZone extends eqLogic {
 
 		curl_close($ch);
 		
-		//$data = curl -i -X POST -H "Content-Type: application/json" -d "" $url;
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
 */	
 
@@ -163,21 +162,16 @@ class airZone extends eqLogic {
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 /*
 	//Récupération eqLogics de airZone
-	$ch = curl_init($url);
-	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	$data = curl_exec($ch);
-	curl_close($ch);
 	*/
-	$data = curl -i -X GET -H "Content-Type: application/json" -d $url;	
+	$request_http = new com_http($url);
+    $data = $request_http->exec(30);
 	
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
 	$eqLogics = eqLogic::byType('airZone');
-        $datas = json_decode($data, true);
-        if (json_last_error() == JSON_ERROR_NONE) {
+    $datas = json_decode($data, true);
+    if (json_last_error() == JSON_ERROR_NONE) {
 		log::add('airZone', 'debug', "conversion en tableau : ". print_r($datas, true));
 		
 		//On récupère tout les registres
