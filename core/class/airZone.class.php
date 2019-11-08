@@ -35,7 +35,7 @@ class airZone extends eqLogic {
       public static function cron5() {
 			airZone::SyncAirzone();
       }
-	  public static function cron15() {
+      public static function cron15() {
 			airZone::SyncAirzone();
       }
 	
@@ -159,7 +159,6 @@ class airZone extends eqLogic {
 */	
 
 	//Config de Test
-        //$Addr = 'http://' . $this->getConfiguration('addr', '') . ':3000/api/v1/hvac';
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 
@@ -184,7 +183,7 @@ class airZone extends eqLogic {
 		foreach ($datas["data"] as $registre) {
 			//Pour chaque registre, on test si il existe en base
 			log::add('airZone', 'debug', print_r($registre, true));
-			$eqRecherche = $registre["systemID"]."-".$registre["zoneID"];
+			$eqRecherche = $registre["systemid"]."-".$registre["zoneid"];
 			log::add('airZone', 'debug', "Recherche: " .$eqRecherche);
 			
 			$found = false;
@@ -207,8 +206,8 @@ class airZone extends eqLogic {
 				$eqLogic->setIsVisible(1);
 				$eqLogic->setName($eqRecherche);
 				$eqLogic->setConfiguration('deviceID', $eqRecherche);
-				$eqLogic->setConfiguration('systemID', $registre["systemID"]);
-				$eqLogic->setConfiguration('zoneID', $registre["zoneID"]);
+				$eqLogic->setConfiguration('systemID', $registre["systemid"]);
+				$eqLogic->setConfiguration('zoneID', $registre["zoneid"]);
 				$eqLogic->save();
 				$eqLogic = self::byId($eqLogic->getId());
 				
