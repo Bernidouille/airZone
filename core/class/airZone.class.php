@@ -127,7 +127,7 @@ class airZone extends eqLogic {
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
-		log::add('airZone', 'debug', 'SyncAirzone ' .$url." Request : chaine ".$data_string);
+		log::add('airZone', 'debug', 'SyncAirzone, passerelle : ' .$url." - Requête envoyée : ".$data_string);
 		$ch = curl_init();
 
 		$options = array(
@@ -143,13 +143,13 @@ class airZone extends eqLogic {
 		    CURLOPT_POSTFIELDS     => $data_string
 		);
 		curl_setopt_array( $ch, $options );
-		$response = curl_exec($ch); 
+		$data = curl_exec($ch); 
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		if ( $httpCode != 200 ){
 		    log::add('airZone', 'debug', 'SyncAirzone - Return code is {'.$httpCode.'} '.curl_error($ch));
 		} else {
-		    log::add('airZone', 'debug', 'SyncAirzone - Return data : {'.htmlspecialchars($response));
+		    log::add('airZone', 'debug', 'SyncAirzone - Return data : '.htmlspecialchars($response));
 		}
 
 		curl_close($ch);
