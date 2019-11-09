@@ -127,7 +127,7 @@ class airZone extends eqLogic {
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
-		log::add('airZone', 'debug', 'SyncAirzone ' .$url." Request : chaine ".$data_string);
+		log::add('airZone', 'debug', 'SyncAirzone passerelle :' .$url." - Requête envoyée : ".$data_string);
 		$ch = curl_init();
 
 		$options = array(
@@ -143,7 +143,7 @@ class airZone extends eqLogic {
 		    CURLOPT_POSTFIELDS     => $data_string
 		);
 		curl_setopt_array( $ch, $options );
-		$response = curl_exec($ch); 
+		$data = curl_exec($ch); 
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		if ( $httpCode != 200 ){
@@ -451,7 +451,7 @@ class airZone extends eqLogic {
       $airZoneCmd->setTemplate("mobile",'line' );
       $airZoneCmd->setTemplate("dashboard",'line' );
       //$airZoneCmd->setDisplay('icon', '<i class="fas fa-flash"></i>');
-      $airZoneCmd->setConfiguration('type', 'command');
+      $airZoneCmd->setConfiguration('type', $_name);
 	  
 	  switch ($_name) {
 		case "systemID":
