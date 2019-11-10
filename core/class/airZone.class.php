@@ -387,6 +387,8 @@ class airZone extends eqLogic {
 							if ($action->getConfiguration('commandName') == $linkedCmdName) {
 								$action->setValue($airZoneCmd->getId());
 								$action->save();
+log::add('airZone', 'debug', "Commande : ".$action->getName()." liée à : ".$action->getConfiguration('commandName')." - ID : ".$action->getId()." / value : ".$action->getValue() );
+								
 							}
 						}
 					}		
