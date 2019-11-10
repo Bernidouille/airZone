@@ -381,7 +381,8 @@ class airZone extends eqLogic {
 						//$eqLogic->checkAndUpdateCmd($name, $value);
 						break;
 					}
-
+					//airZoneCmd
+					$airZoneCmd = airZoneCmd::byEqLogicIdAndLogicalId($eqLogic->getId(),$name);
 					if ($linkedCmdName !== '') {
 						foreach ($eqLogic->getCmd() as $action) {
 							if ($action->getName() == $linkedCmdName) {
