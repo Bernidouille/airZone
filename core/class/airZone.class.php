@@ -364,10 +364,10 @@ class airZone extends eqLogic {
 						case "speed":
 							$linkedCmdName = 'set_speed';
 							break;
-						case "coldstage":
+						case "coldStage":
 							$linkedCmdName = 'set_coldstage';
 							break;
-						case "heatstage":
+						case "heatStage":
 							$linkedCmdName = 'set_heatstage';
 							break;
 						case "units":
@@ -375,10 +375,10 @@ class airZone extends eqLogic {
 						case "errors" :
 							//Gestion des erreurs et warning à terminer
 							$eqLogic->checkAndUpdateCmd($name, json_encode($value));
-							//log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
+							//log::add('airZone', 'info', "Commande Erreur : ".json_encode($value));
 							break;
 						default:
-						$eqLogic->checkAndUpdateCmd($name, $value);
+						//$eqLogic->checkAndUpdateCmd($name, $value);
 						break;
 					}
 
@@ -512,9 +512,9 @@ log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : "
 			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
 			break;
-		case "coldstage":
+		case "coldStage":
 			break;
-		case "heatstage":
+		case "heatStage":
 			break;
 		case "units":
 			break;
