@@ -122,16 +122,17 @@ class airZone extends eqLogic {
 
 		//airZone::Integration();
 		//Config de Prod 
-		
 	    $mode = config::byKey('mode', 'airZone');
 	    if ($mode!='test' ){
-			
+        
 		$url = config::byKey('addr', 'airZone');
 		$systemID = (int)$idSystem;
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
-		log::add('airZone', 'debug', 'SyncAirzone passerelle :' .$url." - Requête envoyée : ".$data_string);
+
+		log::add('airZone', 'debug', 'SyncAirzone, passerelle : ' .$url." - Requête envoyée : ".$data_string);
+
 		$ch = curl_init();
 
 		$options = array(
@@ -153,12 +154,13 @@ class airZone extends eqLogic {
 		if ( $httpCode != 200 ){
 		    log::add('airZone', 'debug', 'SyncAirzone - Return code is {'.$httpCode.'} '.curl_error($ch));
 		} else {
-		    log::add('airZone', 'debug', 'SyncAirzone - Return data : {'.htmlspecialchars($response));
+		    log::add('airZone', 'debug', 'SyncAirzone - Return data : '.htmlspecialchars($response));
 		}
 
 		curl_close($ch);
 		
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
+
 	    }
 	else
 	{
@@ -170,8 +172,7 @@ class airZone extends eqLogic {
 	$request_http = new com_http($url);
    	$data = $request_http->exec(30);
 	}
-		
-		
+    
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	//log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
