@@ -122,12 +122,17 @@ class airZone extends eqLogic {
 
 		//airZone::Integration();
 		//Config de Prod 
+	    $mode = config::byKey('mode', 'airZone');
+	    if ($mode!='test' ){
+        
 		$url = config::byKey('addr', 'airZone');
 		$systemID = (int)$idSystem;
 		$zoneID = 0;
 		$request = array("systemid" => $systemID, "zoneid" => $zoneID);
 		$data_string = json_encode($request);
+
 		log::add('airZone', 'debug', 'SyncAirzone, passerelle : ' .$url." - Requête envoyée : ".$data_string);
+
 		$ch = curl_init();
 
 		$options = array(
@@ -155,17 +160,19 @@ class airZone extends eqLogic {
 		curl_close($ch);
 		
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
-	
-/*
+
+	    }
+	else
+	{
 	//Config de Test
 	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 
-	//Récupération eqLogics de airZone
-	
+	//Récupération eqLogics de airZone	
 	$request_http = new com_http($url);
-    $data = $request_http->exec(30);
-	*/
+   	$data = $request_http->exec(30);
+	}
+    
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
 	//log::add('airZone', 'debug', "Retour API : ".$data." json : ".json_decode($data));
 	//Récupération eqLogics de jeedom
@@ -364,10 +371,10 @@ class airZone extends eqLogic {
 						case "speed":
 							$linkedCmdName = 'set_speed';
 							break;
-						case "coldstage":
+						case "coldStage":
 							$linkedCmdName = 'set_coldstage';
 							break;
-						case "heatstage":
+						case "heatStage":
 							$linkedCmdName = 'set_heatstage';
 							break;
 						case "units":
@@ -375,18 +382,21 @@ class airZone extends eqLogic {
 						case "errors" :
 							//Gestion des erreurs et warning à terminer
 							$eqLogic->checkAndUpdateCmd($name, json_encode($value));
-							//log::add('airZone', 'debug', "Commande Erreur : ".json_encode($value));
+							//log::add('airZone', 'info', "Commande Erreur : ".json_encode($value));
 							break;
 						default:
-						$eqLogic->checkAndUpdateCmd($name, $value);
+						//$eqLogic->checkAndUpdateCmd($name, $value);
 						break;
 					}
-
+					//airZoneCmd
+					$airZoneCmd = airZoneCmd::byEqLogicIdAndLogicalId($eqLogic->getId(),$name);
 					if ($linkedCmdName !== '') {
 						foreach ($eqLogic->getCmd() as $action) {
-							if ($action->getConfiguration('commandName') == $linkedCmdName) {
+							if ($action->getName() == $linkedCmdName) {
 								$action->setValue($airZoneCmd->getId());
 								$action->save();
+log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : ".$action->getName()." - cmd action ID : ".$action->getId()." / value id cmd info : ".$action->getValue() );
+								
 							}
 						}
 					}		
@@ -451,7 +461,7 @@ class airZone extends eqLogic {
       $airZoneCmd->setTemplate("mobile",'line' );
       $airZoneCmd->setTemplate("dashboard",'line' );
       //$airZoneCmd->setDisplay('icon', '<i class="fas fa-flash"></i>');
-      $airZoneCmd->setConfiguration('type', 'command');
+      $airZoneCmd->setConfiguration('type', $_name);
 	  
 	  switch ($_name) {
 		case "systemID":
@@ -510,9 +520,9 @@ class airZone extends eqLogic {
 			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
 			break;
-		case "coldstage":
+		case "coldStage":
 			break;
-		case "heatstage":
+		case "heatStage":
 			break;
 		case "units":
 			break;
