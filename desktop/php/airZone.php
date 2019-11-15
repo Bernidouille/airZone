@@ -16,7 +16,7 @@ $eqLogics = eqLogic::byType($plugin->getId());
         	<br>
         	<span>{{Synchroniser}}</span>
     	</div>
-        <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
+    <div class="cursor eqLogicAction logoSecondary" data-action="gotoPluginConf">
       		<i class="fas fa-wrench"></i>
     		<br>
     		<span>{{Configuration}}</span>
@@ -46,7 +46,7 @@ foreach ($eqLogics as $eqLogic) {
 <div class="col-xs-12 eqLogic" style="display: none;">
 		<div class="input-group pull-right" style="display:inline-flex">
 			<span class="input-group-btn">
-				<a class="btn btn-default btn-sm eqLogicAction roundedLeft" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
+				<a class="btn btn-default btn-sm eqLogicAction roundedLeft" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a><a class="btn btn-default btn-sm eqLogicAction" data-action="copy"><i class="fas fa-copy"></i> {{Dupliquer}}</a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-danger btn-sm eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
 			</span>
 		</div>
   <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +60,7 @@ foreach ($eqLogics as $eqLogic) {
     <form class="form-horizontal">
         <fieldset>
             <div class="form-group">
-                <label class="col-sm-3 control-label">{{Nom de la Zone}}</label>
+                <label class="col-sm-3 control-label">{{Nom de l'équipement template}}</label>
                 <div class="col-sm-3">
                     <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                     <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'équipement template}}"/>
@@ -99,26 +99,20 @@ foreach (jeeObject::all() as $object) {
 		</div>
 	</div>
        <div class="form-group">
-        <label class="col-sm-3 control-label">{{ID Equipement : systemID - zoneID }}</label>
+        <label class="col-sm-3 control-label">{{template param 1}}</label>
         <div class="col-sm-3">
-            <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="deviceID" placeholder="param1" readonly/>
+            <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="city" placeholder="param1"/>
         </div>
     </div>
 </fieldset>
 </form>
 </div>
       <div role="tabpanel" class="tab-pane" id="commandtab">
-	  <br/><br/>
+<a class="btn btn-success btn-sm cmdAction pull-right" data-action="add" style="margin-top:5px;"><i class="fa fa-plus-circle"></i> {{Commandes}}</a><br/><br/>
 <table id="table_cmd" class="table table-bordered table-condensed">
     <thead>
         <tr>
-                    <th style="width:  50px;">#</th>
-            		<th style="width: 130px;">{{Nom}}</th>
-            		<th style="width: 150px;">{{Type}}</th>
-            		<th style="width:  50px;">{{Commande API AirZone}}</th>
-            		<th style="width: 100px;">{{Unité}}</th>
-            		<th style="width: 120px;">{{Paramètres}}</th>
-            		<th style="width: 120px;"></th>
+            <th>{{Nom}}</th><th>{{Type}}</th><th>{{Action}}</th>
         </tr>
     </thead>
     <tbody>
