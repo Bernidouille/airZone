@@ -45,6 +45,13 @@ if (!isConnect()) {
             </div>
 			<span class="col-lg-6" style="position:relative;top:7px;">Par defaut : 1</span>
         </div>
+	<div class="form-group">
+            <label class="col-lg-3 control-label">{{Mode de fonctionnement}}</label>
+            <div class="col-lg-3">
+                <input class="configKey form-control" data-l1key="mode" value="" />
+            </div>
+			<span class="col-lg-6" style="position:relative;top:7px;">Ne pas utiliser</span>
+        </div>
         <div class="form-group">
             <label class="col-lg-3 control-label">{{Système Airzone VAF}}</label>
             <div class="col-lg-3">
