@@ -88,7 +88,7 @@ class airZone extends eqLogic {
 	}
 	
 	public function Integration() {
-		/*$url = config::byKey('integration', 'airZone');
+		$url = config::byKey('integration', 'airZone');
 		$request = array("driver" => "Jeedom");
 		$data_string = json_encode($request);
 		
@@ -113,7 +113,7 @@ class airZone extends eqLogic {
 		    log::add('airZone', 'debug', 'Integration - Return data : {'.htmlspecialchars($response));
 		}
 
-		curl_close($ch);*/
+		curl_close($ch);
 		
 		
 	}
@@ -122,6 +122,10 @@ class airZone extends eqLogic {
 
 		//airZone::Integration();
 		//Config de Prod 
+		
+	    $mode = config::byKey('mode', 'airZone');
+	    if ($mode!='test' ){
+			
 		$url = config::byKey('addr', 'airZone');
 		$systemID = (int)$idSystem;
 		$zoneID = 0;
@@ -155,16 +159,17 @@ class airZone extends eqLogic {
 		curl_close($ch);
 		
 		log::add('airZone', 'debug', "Retour HTTP : ".$httpcode);
-	
-	
+	    }
+	else
+	{
 	//Config de Test
-	/*$url = config::byKey('addr', 'airZone');
+	$url = config::byKey('addr', 'airZone');
 	log::add('airZone', 'debug', 'SyncAirzone ' . $url);
 
 	//Récupération eqLogics de airZone	
 	$request_http = new com_http($url);
    	$data = $request_http->exec(30);
-	*/
+	}
 		
 		
 	//log::add('airZone', 'debug', "Retour CH : ".json_decode($data));
