@@ -28,7 +28,6 @@ class airZone extends eqLogic {
 
     
      // Fonction exécutée automatiquement toutes les minutes par Jeedom
-	 //Seul 5min est activé par défaut
       public static function cron() {
 			airZone::SyncAirzone();
       }
@@ -531,7 +530,6 @@ log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : "
 			$airZoneCmd->setUnite('°C');
 			break;
 		case "mode":
-			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
 			break;
 		case "speed":
