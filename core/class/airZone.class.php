@@ -289,17 +289,9 @@ class airZone extends eqLogic {
 				$airZoneCmd->setIsVisible('0');
 				$airZoneCmd->save();
 				}
-				//mode 
-				$airZoneCmd = new airZoneCmd();
-				$airZoneCmd->setType('action');
-				$airZoneCmd->setSubType('select');
-				$airZoneCmd->setName('set_mode');
-				$airZoneCmd->setEqLogic_id($eqLogic->getId());
-				$airZoneCmd->setConfiguration('commandName', 'set_mode');
-				$airZoneCmd->setConfiguration('nparams', 1);
-				$airZoneCmd->setConfiguration('parameters', '#select#');
-				$airZoneCmd->setConfiguration('listValue', '1|STOP;2|CLIMATISATION;3|CHAUFFAGE;4|VENTILATION;5|DESHUMIDIFICATION;7|AUTO');
-				$airZoneCmd->save();
+				
+				//mode : Création conditionnelle en fonction de la présence de info				
+				
 				//speed 
 				$airZoneCmd = new airZoneCmd();
 				$airZoneCmd->setType('action');
@@ -367,6 +359,17 @@ class airZone extends eqLogic {
 							break;
 						case "mode":
 							$linkedCmdName = 'set_mode';
+							//création de la commande action set_mode 
+							$airZoneCmdAction = new airZoneCmd();
+							$airZoneCmdAction->setType('action');
+							$airZoneCmdAction->setSubType('select');
+							$airZoneCmdAction->setName('set_mode');
+							$airZoneCmdAction->setEqLogic_id($eqLogic->getId());
+							$airZoneCmdAction->setConfiguration('commandName', 'set_mode');
+							$airZoneCmdAction->setConfiguration('nparams', 1);
+							$airZoneCmdAction->setConfiguration('parameters', '#select#');
+							$airZoneCmdAction->setConfiguration('listValue', '1|STOP;2|CLIMATISATION;3|CHAUFFAGE;4|VENTILATION;5|DESHUMIDIFICATION;7|AUTO');
+							$airZoneCmdAction->save();
 							break;
 						case "speed":
 							$linkedCmdName = 'set_speed';
