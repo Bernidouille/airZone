@@ -225,7 +225,7 @@ class airZone extends eqLogic {
 				$airZoneCmd->setConfiguration('parameters', '#slider#');
 				$airZoneCmd->setConfiguration('minValue', '0');
 				$airZoneCmd->setConfiguration('maxValue', '1');
-				$airZoneCmd->setDisplay('generic_type', 'FLAP_SLIDER');
+				//$airZoneCmd->setDisplay('generic_type', 'FLAP_SLIDER');
 				$airZoneCmd->save();
 				//setpoint 
 				$airZoneCmd = new airZoneCmd();
@@ -241,6 +241,7 @@ class airZone extends eqLogic {
 				$airZoneCmd->setConfiguration('parameters', '#slider#');
 				$airZoneCmd->setConfiguration('minValue', '15');
 				$airZoneCmd->setConfiguration('maxValue', '30');
+				$airZoneCmd->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
 				$airZoneCmd->save();
 				//name 
 				$airZoneCmd = new airZoneCmd();
@@ -271,6 +272,7 @@ class airZone extends eqLogic {
 				$airZoneCmd->setConfiguration('minValue', '18');
 				$airZoneCmd->setConfiguration('maxValue', '30');
 				$airZoneCmd->setIsVisible('0');
+				$airZoneCmd->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
 				$airZoneCmd->save();
 				//heatsetpoint 
 				$airZoneCmd = new airZoneCmd();
@@ -287,6 +289,7 @@ class airZone extends eqLogic {
 				$airZoneCmd->setConfiguration('minValue', '15');
 				$airZoneCmd->setConfiguration('maxValue', '30');
 				$airZoneCmd->setIsVisible('0');
+				$airZoneCmd->setGeneric_type( 'THERMOSTAT_SET_SETPOINT');
 				$airZoneCmd->save();
 				}
 				
@@ -341,7 +344,7 @@ class airZone extends eqLogic {
 							$linkedCmdName = 'set_On';
 							break;
 						case "setpoint":
-							$linkedCmdName = 'set_Temp';
+							$linkedCmdName = 'set_Temp';						
 							break;
 						case "name":
 							$linkedCmdName = 'set_Name';
@@ -473,23 +476,33 @@ log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : "
 			break;
 		case "name":
 			$airZoneCmd->setSubType('string');
+			$airZoneCmd->setGeneric_type( 'THERMOSTAT_STATE_NAME');
 			break;
 		case "on":
 			$airZoneCmd->setSubType('binary');
 			$airZoneCmd->setIsHistorized(1);
+			$airZoneCmd->setGeneric_type( 'THERMOSTAT_STATE');
+			break;
+		case "lock":
+			$airZoneCmd->setSubType('binary');
+			$airZoneCmd->setIsHistorized(1);
+			$airZoneCmd->setGeneric_type( 'THERMOSTAT_LOCK');
 			break;
 		case "setpoint":
 			$airZoneCmd->setUnite('°C');
+			$airZoneCmd->setGeneric_type( 'THERMOSTAT_SETPOINT');
 			break;
 		case "roomTemp":
 			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
 			$airZoneCmd->setUnite('°C');
+			
 			break;
 		case "humidity":
 			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
 			$airZoneCmd->setUnite('%');
+			$airZoneCmd->setGeneric_type( 'HUMIDITY');
 			break;
 		case "maxTemp":
 			$airZoneCmd->setUnite('°C');
@@ -499,6 +512,7 @@ log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : "
 			break;
 		case "coolsetpoint":
 			$airZoneCmd->setUnite('°C');
+			$airZoneCmd->setGeneric_type( 'THERMOSTAT_SETPOINT');
 			break;
 		case "coolmaxtemp":
 			$airZoneCmd->setUnite('°C');
@@ -508,6 +522,7 @@ log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : "
 			break;
 		case "heatsetpoint":
 			$airZoneCmd->setUnite('°C');
+			$airZoneCmd->setGeneric_type( 'THERMOSTAT_SETPOINT');
 			break;
 		case "heatmaxtemp":
 			$airZoneCmd->setUnite('°C');
