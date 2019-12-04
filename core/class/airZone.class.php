@@ -674,7 +674,7 @@ class airZoneCmd extends cmd {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $eqLogic->getConfiguration('systemID');
 		$zoneID = $eqLogic->getConfiguration('zoneID');
-		$data = array("systemid" => "$systemID", "zoneid" => "$zoneID", "$params" => "$value");
+		$data = array("systemid" => $systemID, "zoneid" => $zoneID, "$params" => $value);
 		$data_string = json_encode($data);
 		log::add('airZone', 'debug', "JSON : ".$data_string);
 		$ch = curl_init($url);
