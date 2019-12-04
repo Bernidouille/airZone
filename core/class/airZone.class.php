@@ -685,13 +685,14 @@ class airZoneCmd extends cmd {
 			'Content-Type: application/json',
 			'Content-Length: ' . strlen($data_string))
 		);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		//curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		//curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 
 		//execute post
 		$result = curl_exec($ch);
 		
-		log::add('airZone', 'debug', "Retour Api : ".json_decode($result));
+		log::add('airZone', 'debug', "Retour Api : ".$result);
+	    
 		//close connection
 		curl_close($ch);
 	  
