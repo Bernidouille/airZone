@@ -616,6 +616,7 @@ class airZoneCmd extends cmd {
 			break;
 		case "set_Temp":
 			$params = "setpoint";
+			$value = floatval($value);
 			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_Name":
