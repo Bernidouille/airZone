@@ -28,7 +28,6 @@ class airZone extends eqLogic {
 
     
      // Fonction exécutée automatiquement toutes les minutes par Jeedom
-	 //Seul 5min est activé par défaut
       public static function cron() {
 			airZone::SyncAirzone();
       }
@@ -531,7 +530,6 @@ log::add('airZone', 'debug', "Commande : ".$airZoneCmd->getName()." liée à : "
 			$airZoneCmd->setUnite('°C');
 			break;
 		case "mode":
-			$airZoneCmd->setIsVisible('1');
 			$airZoneCmd->setIsHistorized(1);
 			break;
 		case "speed":
@@ -676,9 +674,9 @@ class airZoneCmd extends cmd {
 		$url = config::byKey('addr', 'airZone');
 		$systemID = $eqLogic->getConfiguration('systemID');
 		$zoneID = $eqLogic->getConfiguration('zoneID');
-		$data = array("systemid" => "$systemID", "zoneid" => "$zoneID", "$params" => "$value");
+		$data = array("systemid" => $systemID, "zoneid" => $zoneID, "$params" => $value);
 		$data_string = json_encode($data);
-
+		log::add('airZone', 'debug', "JSON : ".$data_string);
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -687,13 +685,14 @@ class airZoneCmd extends cmd {
 			'Content-Type: application/json',
 			'Content-Length: ' . strlen($data_string))
 		);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+		//curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		//curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 
 		//execute post
 		$result = curl_exec($ch);
 		
-		log::add('airZone', 'debug', "Retour Api : ".json_decode($result));
+		log::add('airZone', 'debug', "Retour Api : ".$result);
+	    
 		//close connection
 		curl_close($ch);
 	  
