@@ -600,9 +600,10 @@ class airZoneCmd extends cmd {
 		
 		//par defaut on traite toutes les commandes comme des #slider#
 		$value = str_replace('#slider#', $_options['slider'], $parameters);
-		log::add('airZone', 'debug', "Commande avant Api : ".$this->getName()." -> ".$value);
+		log::add('airZone', 'debug', "Commande avant Api : name : ".$this->getName()."ou human name : ".$this->getHumanName()." -> ".$value);
 		
-		switch ($this->getName()) {
+	    	//commandName
+		switch ($this->getConfiguration('commandName')) {
 		case "set_On":
 			$params = "on";
 			$eqLogic->checkAndUpdateCmd($params, $value);
