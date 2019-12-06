@@ -628,21 +628,25 @@ class airZoneCmd extends cmd {
 			log::add('airZone', 'debug', "Commande Name avant Api : ".$this->getName()." -> ".$value);
 			break;
 		case "set_coolTemp":
-			$params = "coolsetpoint";
+			$params = "coolsetpoint";			
+			$value = intval($value);
 			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_headTemp":
-			$params = "heatsetpoint";
+			$params = "heatsetpoint";			
+			$value = intval($value);
 			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_mode":
 			$params = "mode";
 			$value = str_replace('#select#', $_options['select'], $parameters);
+			$value = intval($value);
 			$eqLogic->checkAndUpdateCmd($params, $value);
 			log::add('airZone', 'debug', "Commande Mode avant Api : ".$this->getName()." -> ".$value);
 			break;
 		case "set_speed":
 			$params = "speed";
+			$value = intval($value);
 			$eqLogic->checkAndUpdateCmd($params, $value);
 			break;
 		case "set_coldstage":
